@@ -1,11 +1,12 @@
 `ifndef BASE_TEST__SV
 `define BASE_TEST__SV
 
-class base_test extends uvm_test;
+class axil_base_test extends uvm_test;
 	
-	axil_env  env;
+	protected axil_env       env;
+	protected axil_sequence  seq;
 
-	function new(string name = "base_test", uvm_component parent = null);
+	function new(string name = "axil_base_test", uvm_component parent = null);
 		super.new(name, parent);
 	endfunction
 
