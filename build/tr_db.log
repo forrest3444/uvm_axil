@@ -1,0 +1,1 @@
+  CREATE_STREAM @0 {NAME:smoke_seq T:Transactions SCOPE:uvm_test_top.env.i_agt.seqr STREAM:897}

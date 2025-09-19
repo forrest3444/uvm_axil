@@ -11,7 +11,7 @@ class axil_scoreboard extends uvm_scoreboard;
 
 	`uvm_component_utils(axil_scoreboard)
 
-	extern function new(string name, uvm_component parent = null);
+	extern function new(string name = "axil_scoreboard", uvm_component parent = null);
 	extern virtual function void build_phase(uvm_phase phase);
 	extern virtual task run_phase(uvm_phase phase);
 

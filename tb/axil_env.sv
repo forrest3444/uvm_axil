@@ -4,6 +4,8 @@
 class axil_env extends uvm_env;
   `uvm_component_utils(axil_env);
 
+	virtual axil_if #(32,16) vif;
+
 	axil_agent                     i_agt;
 	axil_agent                     o_agt;
 	axil_reference_model           mdl;
@@ -23,9 +25,15 @@ class axil_env extends uvm_env;
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 
+		if(!uvm_config_db #(virtual axil_if)::get(this, "", "vif", vif))
+			`uvm_fatal("NOVIF", "env not get vif");
+
+		uvm_config_db #(virtual axil_if)::set(this, "i_agt", "vif", vif);
+		uvm_config_db #(virtual axil_if)::set(this, "o_agt", "vif", vif);
+
     i_agt = axil_agent::type_id::create("i_agt", this);
 		o_agt = axil_agent::type_id::create("o_agt", this);
-		mdl   = axil_reference_model::type_id::create("mdl", this);
+		mdl   = axil_reference_model#()::type_id::create("mdl", this);
 		scb   = axil_scoreboard::type_id::create("scb", this);
 
 		uvm_config_db #(uvm_active_passive_enum)::set(this, "i_agt", "is_active", UVM_ACTIVE);
@@ -39,6 +47,7 @@ endclass
 
 function void axil_env::connect_phase(uvm_phase phase);
 	super.connect_phase(phase);
+
 	//i_agt to model
 	i_agt.mon_ap.connect(i_agt_mdl_fifo.analysis_export);
 	mdl.in_port.connect(i_agt_mdl_fifo.blocking_get_export);

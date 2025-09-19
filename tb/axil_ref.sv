@@ -1,8 +1,6 @@
 `ifndef AXIL_REF__SV
 `define AXIL_REF__SV
 
-typedef enum {OKAY, SLVERR, DECERR} axil_resp;
-
 class axil_reference_model #(
     parameter DATA_WIDTH = 32,
     parameter ADDR_WIDTH = 16
@@ -31,11 +29,12 @@ class axil_reference_model #(
 
     // ---- main phase ----
     virtual task run_phase(uvm_phase phase);
-        axil_transaction tr, rsp;
+        axil_transaction#(DATA_WIDTH, ADDR_WIDTH) tr, rsp;
+				rsp = axil_transaction#(DATA_WIDTH, ADDR_WIDTH)::type_id::create("rsp");
 
         forever begin
             in_port.get(tr);
-            rsp = tr.clone();
+            rsp.copy(tr);
 
             if (tr.op == WRITE) begin
                 write(tr.addr, tr.data, tr.wstrb);

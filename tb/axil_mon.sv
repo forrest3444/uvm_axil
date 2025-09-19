@@ -3,16 +3,16 @@
 
 class axil_monitor extends uvm_monitor;
 
-	virtual axil_if vif;
+	virtual axil_if.mon vif;
 	
 	//broadcast port
-	uvm_analysis_port #(axil_transaction) item_collected_port;
+	uvm_analysis_port #(axil_transaction) ap;
 
 	`uvm_component_utils(axil_monitor);
 
 	function new(string name = "axil_monitor", uvm_component parent = null);
 		super.new(name, parent);
-		item_collected_port = new("item_collected_port", this);
+		ap = new("ap", this);
 	endfunction
 
 	extern virtual function void build_phase(uvm_phase phase);
@@ -23,9 +23,19 @@ class axil_monitor extends uvm_monitor;
 
 endclass	
 
-function void axil_monitor:: build_phase(uvm_phase phase);
+task axil_monitor::run_phase(uvm_phase phase);
+
+	fork
+		collect_write();
+		collect_read();
+	join_none
+
+endtask
+
+
+function void axil_monitor::build_phase(uvm_phase phase);
 	super.build_phase(phase);
-	if(!uvm_config_db #(virtual axil_if)::get(this, "", "vif", vif))
+	if(!uvm_config_db #(virtual axil_if.mon)::get(this, "", "vif", vif))
 		`uvm_fatal("axil_monitor", "virtual interface must be set for vif!!!")
 endfunction
 
@@ -35,7 +45,7 @@ task axil_monitor::wait_for_reset_release();
 endtask
 
 task axil_monitor::collect_write();
-	axil_transaction rd_tr;
+	axil_transaction rd_tr, wr_tr;
 	bit aw_got, w_got;
 	logic [31:0] awaddr_q;
 	logic [31:0] wdata_q;
@@ -84,18 +94,18 @@ task axil_monitor::collect_write();
 			end while (!(vif.mon_cb.bvalid && vif.mon_cb.bready));
 
 			if (vif.rst_n && (vif.mon_cb.bvalid && vif.mon_cb.bready)) begin
-				wr_tr = axil_transaction::type_id::create("wr_tr", this);
+				wr_tr = axil_transaction#()::type_id::create("wr_tr", this);
 				wr_tr.op   = WRITE;
 				wr_tr.addr = awaddr_q;
 				wr_tr.data = wdata_q;
-				wr_tr.strb = wstrb_q;
+				wr_tr.wstrb = wstrb_q;
 				wr_tr.resp = axil_resp'(vif.mon_cb.bresp);
 
 				`uvm_info(get_type_name(),
 					$sformatf("Monitor WRITE: %s", wr_tr.sprint()),
 					UVM_MEDIUM)
 
-				item_collected_port.write(wr_tr);
+				ap.write(wr_tr);
 			end
 
 			// 准备下一笔
@@ -137,7 +147,7 @@ task axil_monitor::collect_read();
 			end while (!(vif.mon_cb.rvalid && vif.mon_cb.rready));
 
 			if (vif.rst_n && (vif.mon_cb.rvalid && vif.mon_cb.rready)) begin
-				rd_tr = axil_transaction::type_id::create("rd_tr", this);
+				rd_tr = axil_transaction#()::type_id::create("rd_tr", this);
 				rd_tr.op   = READ;
 				rd_tr.addr = araddr_q;
 				rd_tr.data = vif.mon_cb.rdata;
@@ -147,7 +157,7 @@ task axil_monitor::collect_read();
 					$sformatf("Monitor READ : %s", rd_tr.sprint()),
 					UVM_MEDIUM)
 
-				item_collected_port.write(rd_tr);
+				ap.write(rd_tr);
 			end
 		end
 	end

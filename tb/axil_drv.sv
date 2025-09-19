@@ -3,7 +3,7 @@
 
 class axil_driver extends uvm_driver#(axil_transaction);
 
-	virtual axil_if vif;
+	virtual axil_if.drv vif;
 
 	`uvm_component_utils(axil_driver)
 
@@ -21,7 +21,7 @@ endclass
 
 function void axil_driver::build_phase(uvm_phase phase);
 	super.build_phase(phase);
-	if(!uvm_config_db#(virtual axil_if)::get(this, "", "vif",vif))
+	if(!uvm_config_db#(virtual axil_if.drv)::get(this, "", "vif",vif))
 		`uvm_fatal("axil_driver", "virtual interface must be set for axil_if!!!")
 endfunction
 
@@ -39,9 +39,7 @@ task axil_driver::reset_signals();
 		repeat (2) @(vif.master_cb);
 endtask
 
-task axil_driver::drive_one_pkg(axil_transaction tr)
-	wait(vif.rst_n == 1'b1);
-
+task axil_driver::drive_one_pkg(axil_transaction tr);
 	if (tr.op == WRITE) begin
 		//write operation: AW->W->B
 		//drive write address and awvalid
@@ -55,7 +53,7 @@ task axil_driver::drive_one_pkg(axil_transaction tr)
 
 		//drive write data and strb,valid
 		vif.master_cb.wdata <= tr.data;
-		vif.master_cb.wstrb <= tr.strb;
+		vif.master_cb.wstrb <= tr.wstrb;
 		vif.master_cb.wvalid <= 1'b1;
 
 		//wait slave wready
@@ -96,13 +94,12 @@ task axil_driver::run_phase(uvm_phase phase);
 
 	//initial
 	reset_signals();
-	
-	wait(vif.rst_n == 1'b1);
+	@(posedge vif.rst_n);
 
 	forever begin
-		if(vif.rst_n == 1'b0) begin
+		if(!vif.rst_n) begin
 			reset_signals();
-			wait(vif.rst_n == 1'b1);
+			@(posedge vif.rst_n);
 		end
 		//get next transaction from sequencer
 		seq_item_port.get_next_item(tr);
