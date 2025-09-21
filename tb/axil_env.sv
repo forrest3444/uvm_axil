@@ -4,8 +4,6 @@
 class axil_env extends uvm_env;
   `uvm_component_utils(axil_env);
 
-	virtual axil_if #(32,16) vif;
-
 	axil_agent                     i_agt;
 	axil_agent                     o_agt;
 	axil_reference_model           mdl;
@@ -24,12 +22,6 @@ class axil_env extends uvm_env;
 
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
-
-		if(!uvm_config_db #(virtual axil_if)::get(this, "", "vif", vif))
-			`uvm_fatal("NOVIF", "env not get vif");
-
-		uvm_config_db #(virtual axil_if)::set(this, "i_agt", "vif", vif);
-		uvm_config_db #(virtual axil_if)::set(this, "o_agt", "vif", vif);
 
     i_agt = axil_agent::type_id::create("i_agt", this);
 		o_agt = axil_agent::type_id::create("o_agt", this);

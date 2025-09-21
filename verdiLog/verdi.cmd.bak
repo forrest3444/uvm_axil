@@ -1,0 +1,34 @@
+debImport "-full64"
+wvCreateWindow
+wvSetPosition -win $_nWave2 {("G1" 0)}
+wvOpenFile -win $_nWave2 {/home/wwh/github/uvm_axil/top_tb.fsdb}
+wvSelectGroup -win $_nWave2 {G1}
+nsMsgSwitchTab -tab general
+debImport "/home/wwh/github/uvm_axil/tb/top_tb.sv" "-sv" -path \
+          {/home/wwh/github/uvm_axil}
+nsMsgSwitchTab -tab general
+debImport "/home/wwh/github/uvm_axil/tb/top_tb.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_agt.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_base_test.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_drv.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_env.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_if.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_mon.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_ref.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_scb.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_seqr.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_smoke_seq.sv" \
+          "/home/wwh/github/uvm_axil/tb/axil_tr.sv" \
+          "/home/wwh/github/uvm_axil/tb/smoke_test.sv" \
+          "/home/wwh/github/uvm_axil/dut/axil_ram.v" "-sv" -path \
+          {/home/wwh/github/uvm_axil}
+srcHBSelect "top_tb.axil_if0" -win $_nTrace1
+wvCreateWindow
+srcHBSelect "top_tb" -win $_nTrace1
+srcHBSelect "top_tb" -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcDeselectAll -win $_nTrace1
+srcSelect -signal "clk" -line 22 -pos 1 -win $_nTrace1
+srcAddSelectedToWave -clipboard -win $_nTrace1
+wvDrop -win $_nWave3
+debExit

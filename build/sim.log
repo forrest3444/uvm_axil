@@ -1,0 +1,82 @@
+Command: /home/wwh/github/uvm_axil/build/simv +UVM_TESTNAME=smoke_test -l build/sim.log
+Chronologic VCS simulator copyright 1991-2018
+Contains Synopsys proprietary information.
+Compiler version O-2018.09-SP2_Full64; Runtime version O-2018.09-SP2_Full64;  Sep 21 20:46 2025
+UVM_INFO /home/wwh/VCS/vcs2018/vcs/O-2018.09-SP2/etc/uvm-1.2/base/uvm_root.svh(402) @ 0: reporter [UVM/RELNOTES] 
+----------------------------------------------------------------
+UVM-1.2.Synopsys
+(C) 2007-2014 Mentor Graphics Corporation
+(C) 2007-2014 Cadence Design Systems, Inc.
+(C) 2006-2014 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+(C) 2013-2014 NVIDIA Corporation
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_DO_NOT_NEED_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test smoke_test...
+*Verdi* Loading libsscore_vcs201809.so
+FSDB Dumper for VCS, Release Verdi_O-2018.09-SP2, Linux x86_64/64bit, 02/21/2019
+(C) 1996 - 2019 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'top_tb.fsdb'
+*Verdi* : Begin traversing the scope (top_tb), layer (0).
+*Verdi* : End of traversing.
+UVM_INFO tb/axil_drv.sv(11) @ 0: uvm_test_top.env.i_agt.drv [axil_driver] new is called
+UVM_INFO tb/axil_smoke_seq.sv(25) @ 0: uvm_test_top.env.i_agt.seqr@@axil_smoke_seq [axil_smoke_seq] Sending WRITE: addr=0x0 data=0x0
+UVM_INFO tb/smoke_test.sv(31) @ 95000: uvm_test_top [smoke_test] Default smoke_seq will start automatically
+UVM_INFO tb/axil_mon.sv(43) @ 95000: uvm_test_top.env.i_agt.mon [axil_monitor] Reset released, starting monitoring
+UVM_INFO tb/axil_mon.sv(43) @ 95000: uvm_test_top.env.i_agt.mon [axil_monitor] Reset released, starting monitoring
+UVM_INFO tb/axil_mon.sv(43) @ 95000: uvm_test_top.env.o_agt.mon [axil_monitor] Reset released, starting monitoring
+UVM_INFO tb/axil_mon.sv(43) @ 95000: uvm_test_top.env.o_agt.mon [axil_monitor] Reset released, starting monitoring
+UVM_INFO tb/axil_drv.sv(102) @ 95000: uvm_test_top.env.i_agt.drv [axil_driver] drv before get_next_item: vif.rst_n=1
+UVM_INFO tb/axil_drv.sv(105) @ 95000: uvm_test_top.env.i_agt.drv [axil_driver] Driving transaction: --------------------------------------------------------------------------------------------------
+Name                           Type               Size  Value                                     
+--------------------------------------------------------------------------------------------------
+tr                             uvm_sequence_item  -     @889                                      
+  op                           axil_op            32    WRITE                                     
+  addr                         integral           16    'h0                                       
+  data                         integral           32    'h0                                       
+  wstrb                        integral           4     'hf                                       
+  begin_time                   time               64    95000                                     
+  depth                        int                32    'd2                                       
+  parent sequence (name)       string             14    axil_smoke_seq                            
+  parent sequence (full name)  string             42    uvm_test_top.env.i_agt.seqr.axil_smoke_seq
+  sequencer                    string             27    uvm_test_top.env.i_agt.seqr               
+--------------------------------------------------------------------------------------------------
+
+UVM_INFO /home/wwh/VCS/vcs2018/vcs/O-2018.09-SP2/etc/uvm-1.2/base/uvm_objection.svh(1276) @ 1095000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+TEST CASE PASSED
+UVM_INFO /home/wwh/VCS/vcs2018/vcs/O-2018.09-SP2/etc/uvm-1.2/base/uvm_report_server.svh(894) @ 1095000: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   12
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[RNTST]     1
+[TEST_DONE]     1
+[UVM/RELNOTES]     1
+[axil_driver]     3
+[axil_monitor]     4
+[axil_smoke_seq]     1
+[smoke_test]     1
+
+$finish called from file "/home/wwh/VCS/vcs2018/vcs/O-2018.09-SP2/etc/uvm-1.2/base/uvm_root.svh", line 527.
+$finish at simulation time              1095000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1095000 ps
+CPU Time:      0.230 seconds;       Data structure size:   0.5Mb
+Sun Sep 21 20:46:16 2025

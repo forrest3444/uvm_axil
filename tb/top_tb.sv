@@ -27,7 +27,8 @@ axil_if #(32, 16)  axil_if0(
 	.rst_n(rst_n)
 );
 
-virtual axil_if #(32,16) vif;
+virtual axil_if #(32,16) vif = axil_if0;
+
 
 initial begin 
 	clk = 0;
@@ -71,10 +72,19 @@ axil_ram #(32, 16)  ram(
 	
 
 initial begin
-	vif = axil_if0;
-	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env", "vif", vif);
+	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env.i_agt.drv", "vif", vif);
+	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env.i_agt.mon", "vif", vif);
+	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env.o_agt.mon", "vif", vif);
+
+	
   run_test("smoke_test");
 end
+
+initial begin
+	$fsdbDumpfile("top_tb.fsdb");
+	$fsdbDumpvars(0, top_tb);
+end
+
 
 endmodule
 

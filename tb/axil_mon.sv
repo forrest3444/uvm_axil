@@ -3,7 +3,7 @@
 
 class axil_monitor extends uvm_monitor;
 
-	virtual axil_if.mon vif;
+	virtual axil_if vif;
 	
 	//broadcast port
 	uvm_analysis_port #(axil_transaction) ap;
@@ -32,10 +32,9 @@ task axil_monitor::run_phase(uvm_phase phase);
 
 endtask
 
-
 function void axil_monitor::build_phase(uvm_phase phase);
 	super.build_phase(phase);
-	if(!uvm_config_db #(virtual axil_if.mon)::get(this, "", "vif", vif))
+	if(!uvm_config_db #(virtual axil_if)::get(this, "", "vif", vif))
 		`uvm_fatal("axil_monitor", "virtual interface must be set for vif!!!")
 endfunction
 

@@ -2,30 +2,36 @@
 `define SMOKE_TEST__SV
 
 class smoke_test extends axil_base_test;
-
 	`uvm_component_utils(smoke_test)
 
-	function new(string name = "axil_smoke_test", uvm_component parent = null);
+	function new(string name = "smoke_test", uvm_component parent = null);
 		super.new(name, parent);
 	endfunction
 
-	virtual function void build_phas(uvm_phase phase);
-	super.build_phase(phase);
+	virtual function void build_phase(uvm_phase phase);
+		super.build_phase(phase);
 
-	if(!env) begin
-		`uvm_fatal("NO_ENV", "Environment not created!")
+		if(!env) begin
+			`uvm_fatal("NO_ENV", "Environment not created!")
 		end
+
+		uvm_config_db #(uvm_object_wrapper)::set(
+			this, 
+			"env.i_agt.seqr.run_phase", 
+			"default_sequence",
+			axil_smoke_seq::type_id::get()
+		);
+
 	endfunction
 
 	virtual task run_phase(uvm_phase phase);
+		phase.raise_objection(this, "Main test objection");
 
-	  axil_smoke_seq  smoke_seq;
-		`uvm_info(get_type_name(), "Starting Smoke Test Sequence", UVM_MEDIUM)
+		@(posedge env.i_agt.drv.vif.rst_n);
+		`uvm_info(get_type_name(), "Default smoke_seq will start automatically", UVM_MEDIUM)
+		#50000ns;
 
-		smoke_seq = axil_smoke_seq::type_id::create("smoke_seq");
-		smoke_seq.start(env.i_agt.seqr);
-
-		`uvm_info(get_type_name(), "Smoke Test Sequence Finished", UVM_MEDIUM)
+		phase.drop_objection(this, "Finish test");
 
 	endtask
 endclass

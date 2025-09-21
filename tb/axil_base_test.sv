@@ -2,6 +2,7 @@
 `define BASE_TEST__SV
 
 class axil_base_test extends uvm_test;
+	`uvm_component_utils(axil_base_test)
 	
 	protected axil_env       env;
 
@@ -11,7 +12,6 @@ class axil_base_test extends uvm_test;
 
 	extern virtual function void build_phase(uvm_phase phase);
 	extern virtual function void report_phase(uvm_phase phase);
-	`uvm_component_utils(axil_base_test)
 endclass
 
 function void axil_base_test::build_phase(uvm_phase phase);

@@ -1,0 +1,80 @@
+@verdi rc file Version 1.0
+[General]
+saveDB = TRUE
+relativePath = FALSE
+saveSingleView = FALSE
+saveNWaveWinId = 
+VerdiVersion = Verdi_O-2018.09-SP2
+[KeyNote]
+Line1 = Automatic Backup 0
+Line2 = Save Open Database Information: Yes
+Line3 = Path Option: Absolute Paths
+Line4 = Windows Option: All Windows
+[TestBench]
+ConstrViewShow = 0
+InherViewShow = 0
+FSDBMsgShow = 0
+AnnotationShow = 0
+Console = FALSE
+powerDumped = 0
+[hb]
+viewport = 147 199 900 700 0 0 278 898
+activeNode = "top_tb"
+activeScope = "top_tb"
+activeFile = "/home/wwh/github/uvm_axil/tb/top_tb.sv"
+interactiveMode = False
+viewType = Source
+simulatorMode = False
+sourceBeginLine = 19
+baMode = False
+srcLineNum = True
+AutoWrap = True
+IdentifyFalseLogic = False
+syncSignal = False
+traceMode = Hierarchical
+showTraceInSchema = True
+paMode = False
+funcMode = False
+powerAwareAnnot = True
+amsAnnot = True
+traceCrossHier = True
+DnDtraceCrossHierOnly = True
+traceIncTopPort = False
+leadingZero = False
+signalPane = False
+Scope1 = "top_tb"
+Scope2 = "top_tb.axil_if0"
+multipleSelection = 1 19 2 0 0
+sdfCheckUndef = FALSE
+simFlow = FALSE
+[hb.design]
+importCmd = "/home/wwh/github/uvm_axil/dut/axil_ram.v" "/home/wwh/github/uvm_axil/tb/axil_agt.sv" "/home/wwh/github/uvm_axil/tb/axil_base_test.sv" "/home/wwh/github/uvm_axil/tb/axil_drv.sv" "/home/wwh/github/uvm_axil/tb/axil_env.sv" "/home/wwh/github/uvm_axil/tb/axil_\
+if.sv" "/home/wwh/github/uvm_axil/tb/axil_mon.sv" "/home/wwh/github/uvm_axil/tb/axil_ref.sv" "/home/wwh/github/uvm_axil/tb/axil_scb.sv" "/home/wwh/github/uvm_axil/tb/axil_seqr.sv" "/home/wwh/github/uvm_axil/tb/axil_smoke_seq.sv" "/home/wwh/github/uvm_axil/\
+tb/axil_tr.sv" "/home/wwh/github/uvm_axil/tb/smoke_test.sv" "/home/wwh/github/uvm_axil/tb/top_tb.sv" "-sv" 
+workPath = /home/wwh/github/uvm_axil
+invokeDir = /home/wwh/github/uvm_axil
+[hb.sourceTab.1]
+scope = top_tb
+File = /home/wwh/github/uvm_axil/tb/top_tb.sv
+Line = 20
+[wave.0]
+viewPort = 0 27 900 306 100 65
+primaryWindow = TRUE
+Empty = /home/wwh/github/uvm_axil/verdiLog/novas_autosave.ses.wave.0
+displayGrid = FALSE
+hierarchicalName = FALSE
+snap = TRUE
+displayLeadingZeros = FALSE
+fixDelta = FALSE
+displayCursorMarker = FALSE
+autoUpdate = FALSE
+highlightGlitchs = FALSE
+waveformSyncCursorMarker = FALSE
+waveformSyncHorizontalRange = FALSE
+waveformSyncVerticalscroll = FALSE
+displayErrors = TRUE
+displayMsgSymbols = TRUE
+showMsgDescriptions = TRUE
+autoFit = FALSE
+displayDeltaY = FALSE
+centerCursor = FALSE

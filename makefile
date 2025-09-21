@@ -27,10 +27,14 @@ VCS_FLAGS	=	-sverilog	-full64	-timescale=1ns/1ps	\
 						-CFLAGS	"-I$(PWD)/debug"	\
 						-LDFLAGS	"$(PWD)/debug/pthread_yield_shim.o"	\
 						-ntb_opts	uvm-1.2	\
-						#$(VCS_HOME)/etc/uvm-1.2/src/dpi/uvm_dpi.cc
+						-kdb -debug_access+all -fsdb
 
 #	运行选项
-RUN_FLAGS	=	+UVM_TESTNAME=smoke_test
+RUN_FLAGS	=	+UVM_TESTNAME=smoke_test	\
+						#+UVM_PHASE_TRACE	\
+						#+UVM_OBJECTION_TRACE
+						#+UVM_VERBOSITY=UVM_DEBUG
+
 
 #	=======================
 #	Targets

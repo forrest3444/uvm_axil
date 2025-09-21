@@ -2,10 +2,9 @@
 `define AXIL_DRIVER__SV
 
 class axil_driver extends uvm_driver#(axil_transaction);
-
-	virtual axil_if.drv vif;
-
 	`uvm_component_utils(axil_driver)
+
+	virtual axil_if vif;
 
 	function new(string name = "axil_driver", uvm_component parent = null);
 		super.new(name, parent);
@@ -21,7 +20,7 @@ endclass
 
 function void axil_driver::build_phase(uvm_phase phase);
 	super.build_phase(phase);
-	if(!uvm_config_db#(virtual axil_if.drv)::get(this, "", "vif",vif))
+	if(!uvm_config_db#(virtual axil_if)::get(this, "", "vif",vif))
 		`uvm_fatal("axil_driver", "virtual interface must be set for axil_if!!!")
 endfunction
 
@@ -88,7 +87,6 @@ task axil_driver::drive_one_pkg(axil_transaction tr);
 	end
 
 endtask
-
 task axil_driver::run_phase(uvm_phase phase);
 	axil_transaction tr;
 
@@ -101,13 +99,12 @@ task axil_driver::run_phase(uvm_phase phase);
 			reset_signals();
 			@(posedge vif.rst_n);
 		end
-		//get next transaction from sequencer
 		seq_item_port.get_next_item(tr);
 		`uvm_info(get_type_name(), $sformatf("Driving transaction: %s", tr.sprint()), UVM_MEDIUM);
-		//drive one package
 		drive_one_pkg(tr);
 		seq_item_port.item_done();
 	end
+	phase.drop_objection(this);
 endtask
 
 `endif
