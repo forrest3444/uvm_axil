@@ -32,7 +32,7 @@ VCS_FLAGS	=	-sverilog	-full64	-timescale=1ns/1ps	\
 #	运行选项
 RUN_FLAGS	=	+UVM_TESTNAME=smoke_test	\
 						#+UVM_PHASE_TRACE	\
-						#+UVM_OBJECTION_TRACE
+						+UVM_OBJECTION_TRACE
 						#+UVM_VERBOSITY=UVM_DEBUG
 
 

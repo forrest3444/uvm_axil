@@ -37,7 +37,7 @@ end
 
 initial begin
 	rst_n = 0;
-	repeat (10) @(posedge clk);
+	repeat (50) @(posedge clk);
 	rst_n = 1;
 end
 
@@ -75,8 +75,6 @@ initial begin
 	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env.i_agt.drv", "vif", vif);
 	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env.i_agt.mon", "vif", vif);
 	uvm_config_db #(virtual axil_if #(32,16))::set(null, "uvm_test_top.env.o_agt.mon", "vif", vif);
-
-	
   run_test("smoke_test");
 end
 

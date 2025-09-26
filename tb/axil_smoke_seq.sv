@@ -11,35 +11,48 @@ class axil_smoke_seq extends uvm_sequence #(axil_transaction);
 	endfunction
 
 	virtual task body();
+		uvm_phase    phase; 
+		phase = get_starting_phase();
+		`uvm_info(get_type_name(),
+							$sformatf("phase=%p", phase),
+						 	UVM_LOW);
 
-		if(starting_phase != null)
-			starting_phase.raise_objection(this);
+		if(phase != null) begin 
+			`uvm_info(get_type_name(), "RAISE", UVM_LOW);
+			phase.raise_objection(this);
+		end
 
-			for (int i = 0; i < 4; i++) begin
-				tr = axil_transaction#()::type_id::create("tr");
-				tr.op = WRITE;
-				tr.addr = i * 4;
-				tr.data = i * 32'h11111111;
-				tr.wstrb = 4'hF;
+		#100ns;
+		for (int i = 0; i < 4; i++) begin
+			tr = axil_transaction#()::type_id::create("tr");
+      start_item(tr);
+			tr.op = WRITE;
+			tr.addr = i * 4;
+			tr.data = i * 32'h11111111;
+			tr.wstrb = 4'hF;
+			`uvm_info(get_type_name(),
+								$sformatf("Sending WRITE: addr=0x%0h data=0x%0h", tr.addr, tr.data),
+							 	UVM_MEDIUM);
+			finish_item(tr);
+			#10ns;
+		end
 
-				`uvm_info(get_type_name(), $sformatf("Sending WRITE: addr=0x%0h data=0x%0h", tr.addr, tr.data), UVM_MEDIUM)
-				start_item(tr);
-				finish_item(tr);
-			end
+		for (int i = 0; i < 4; i++) begin
+			tr = axil_transaction#()::type_id::create("tr");
+      start_item(tr);
+			tr.op = READ;
+			tr.addr = i * 4;
+			tr.wstrb = 0;
+			`uvm_info(get_type_name(), $sformatf("Sending READ: addr=0x%0h", tr.addr), UVM_MEDIUM);
+			finish_item(tr);
+			#10ns;
+		end
+		#100ns
 
-			for (int i = 0; i < 4; i++) begin
-				tr = axil_transaction#()::type_id::create("tr");
-				tr.op = READ;
-				tr.addr = i * 4;
-				tr.wstrb = 0;
-
-				`uvm_info(get_type_name(), $sformatf("Sending READ: addr=0x%0h", tr.addr), UVM_MEDIUM);
-				start_item(tr);
-				finish_item(tr);
-			end
-
-			if(starting_phase != null)
-				starting_phase.drop_objection(this);
+		if(phase != null) begin
+			`uvm_info(get_type_name(), "DROP", UVM_LOW);
+			phase.drop_objection(this);
+		end
 
 	endtask
 

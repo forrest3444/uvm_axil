@@ -4,7 +4,7 @@
 class axil_base_test extends uvm_test;
 	`uvm_component_utils(axil_base_test)
 	
-	protected axil_env       env;
+  axil_env       env;
 
 	function new(string name = "axil_base_test", uvm_component parent = null);
 		super.new(name, parent);
