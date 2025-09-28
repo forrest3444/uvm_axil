@@ -15,28 +15,34 @@ class axil_monitor extends uvm_monitor;
 		ap = new("ap", this);
 	endfunction
 
-	extern virtual function void build_phase(uvm_phase phase);
-	extern virtual task run_phase(uvm_phase phase);
+/*==============================================================================
+|                   build phase 
+==============================================================================*/
+
+	virtual function void build_phase(uvm_phase phase);
+		super.build_phase(phase);
+		if(!uvm_config_db #(virtual axil_if)::get(this, "", "vif", vif))
+			`uvm_fatal("axil_monitor", "virtual interface must be set for vif!!!")
+	endfunction
+
+/*==============================================================================
+|                    run phase
+==============================================================================*/
+
+	virtual task run_phase(uvm_phase phase);
+		fork
+			collect_write();
+			collect_read();
+		join
+	endtask
+
 	extern virtual task collect_write();
 	extern virtual task collect_read();
 	extern virtual task wait_for_reset_release();
 
 endclass	
 
-task axil_monitor::run_phase(uvm_phase phase);
-
-	fork
-		collect_write();
-		collect_read();
-	join_none
-
 endtask
-
-function void axil_monitor::build_phase(uvm_phase phase);
-	super.build_phase(phase);
-	if(!uvm_config_db #(virtual axil_if)::get(this, "", "vif", vif))
-		`uvm_fatal("axil_monitor", "virtual interface must be set for vif!!!")
-endfunction
 
 task axil_monitor::wait_for_reset_release();
 	if(!vif.rst_n) @(posedge vif.rst_n);

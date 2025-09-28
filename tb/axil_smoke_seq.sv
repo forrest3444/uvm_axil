@@ -10,6 +10,10 @@ class axil_smoke_seq extends uvm_sequence #(axil_transaction);
 		super.new(name);
 	endfunction
 
+/*==============================================================================
+|                   task body----smoke_test 
+==============================================================================*/
+
 	virtual task body();
 		uvm_phase    phase; 
 		phase = get_starting_phase();

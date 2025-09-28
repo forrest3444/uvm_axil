@@ -11,13 +11,21 @@ class axil_transaction #(
 	parameter DATA_WIDTH=32,
   parameter ADDR_WIDTH=16
 ) extends uvm_sequence_item;
+
+/*==============================================================================
+|                   signals defination 
+==============================================================================*/
+
 	rand bit [ADDR_WIDTH-1:0]      addr;
 	rand bit [DATA_WIDTH-1:0]      data;
 	rand bit [(DATA_WIDTH/8)-1:0]  wstrb;
 	rand axil_op                     op;
 	     axil_resp                 resp = OKAY;
 
-  //--------------------factory registration
+/*==============================================================================
+|                   factory registration 
+==============================================================================*/
+			 
 	`uvm_object_param_utils_begin(axil_transaction #(DATA_WIDTH, ADDR_WIDTH))
 	  `uvm_field_enum(axil_op, op, UVM_DEFAULT)
 		`uvm_field_enum(axil_resp, resp, UVM_DEFAULT | UVM_NOPRINT)
@@ -26,16 +34,22 @@ class axil_transaction #(
 		`uvm_field_int(wstrb, UVM_DEFAULT)
 	`uvm_object_utils_end
 
-	 //-------------------constraint
+/*==============================================================================
+|                   constraints 
+==============================================================================*/
+
 	constraint valid_wstrb {
 	 if (op == WRITE)	wstrb != 0;
 	 else wstrb == 0;
  }
-	constraint align_addr { addr % (DATA_WIDTH/8) == 0; }
 
 	function new(string name = "axil_transaction");
 		super.new(name);
 	endfunction
+
+/*==============================================================================
+|                   print function 
+==============================================================================*/
 
 	function string convert2string();
 		string s, s1;
@@ -51,19 +65,6 @@ class axil_transaction #(
 			s1 = $sformatf("READ  addr=0x%08h data=0x%08h resp=%s",
 		           addr, data, s);
 		return s1;
-	endfunction
-
-	virtual function void do_copy(uvm_object rhs);
-		axil_transaction tr;
-		if(!$cast(tr, rhs)) begin
-			`uvm_fatal("COPY_ERR", "do_copy: rhs is not axil_transaction")
-		end
-
-		this.addr = tr.addr;
-		this.data = tr.data;
-		this.wstrb = tr.wstrb;
-		this.op = tr.op;
-		this.resp = tr.resp;
 	endfunction
 
 endclass

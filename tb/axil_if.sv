@@ -1,7 +1,7 @@
 `ifndef AXIL_IF__SV
 `define AXIL_IF__SV
 
-interface axil_if#(
+interface axil_if #(
 	parameter DATA_WIDTH=32,
  	          ADDR_WIDTH=16
 )(
@@ -68,27 +68,6 @@ interface axil_if#(
 		// Read data
 		input rdata, rresp, rvalid, rready;
 	endclocking
-
-		/*
-	clocking slave_cb @(posedge clk);
-		default input #1step output #0;
-		//write address channel
-		input awvalid, awaddr;
-		output awready;
-		//write data channel
-		input wdata, wstrb, wvalid;
-		output wready;
-		//write response channel
-		input bready;
-		output bresp, bvalid;
-		//read address channel
-		input arvalid, araddr;
-		output arready;
-		//read data channel
-		input rready;
-		output rvalid, rresp, rdata;
-	endclocking
-	*/
 
 	modport drv (
 		clocking master_cb,

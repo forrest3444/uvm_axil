@@ -56,7 +56,7 @@ run:
 	$(OUT_DIR)/simv	$(RUN_FLAGS)	-l	$(OUT_DIR)/sim.log
 
 clean:
-	rm	-rf	$(OUT_DIR)	csrc	ucli.key	simv*	*.daidir	*.vpd	*.log
+	rm	-rf	$(OUT_DIR)	csrc	ucli.key	simv*	*.daidir	*.vpd	*.log *.h *.conf *.fsdb verdiLog *.rc
 
 help:
 	@echo	"make	[all]					#	编译并运行"

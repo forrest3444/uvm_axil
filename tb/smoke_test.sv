@@ -8,6 +8,10 @@ class smoke_test extends axil_base_test;
 		super.new(name, parent);
 	endfunction
 
+/*==============================================================================
+|                   build phase 
+==============================================================================*/
+
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		uvm_config_db #(uvm_object_wrapper)::set(
@@ -17,6 +21,10 @@ class smoke_test extends axil_base_test;
 			axil_smoke_seq::type_id::get()
 		);
 	endfunction
+
+/*==============================================================================
+|                   run phase 
+==============================================================================*/
 
 	virtual task run_phase(uvm_phase phase);
 		phase.raise_objection(this);
